@@ -8,7 +8,6 @@ edition = "2018"
 
 [dependencies]
 rocket = "0.4.7"
-uid = "0.1.5"
 serde = "1.0.125"
 random-string = "0.2.0"
 
