@@ -28,8 +28,6 @@ pipeline {
           if [ $GIT_BRANCH = "main" ]; then
             git pull --tags
             git describe >> ./target/debug/version.txt
-            echo $WORKSPACE
-            cp -R ./target/debug/* /root/url.ienza.tech/
           fi
         '''
       }
@@ -38,6 +36,7 @@ pipeline {
   post {
     success {
       sh '''
+        ls -lr $WORKSPACE
         pkill -f short_url
         nohup /var/www/html/url.ienza.tech/short_url &
       '''
