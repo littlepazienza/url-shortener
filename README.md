@@ -8,7 +8,7 @@ With an active MongoDB server, this file can be executed and connected serving a
 
 ## Development server
 
-Running cargo run will set up a development version of the system based off of the configurations in [Rocket.toml]{Rocket.toml}
+Running ```cargo run``` will set up a development version of the system based off of the configurations in [Rocket.toml]{Rocket.toml}
 
 ## Running unit tests
 
