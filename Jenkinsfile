@@ -1,23 +1,15 @@
 pipeline {
-  agent {
-    docker {
-      image 'rust:latest'
-    }
-  }
   stages {
     stage('checkout') {
+      agent {
+        docker {
+          image 'rust:latest'
+        }
+      }
       steps {
         checkout scm
         sh "rustup default nightly"
-      }
-    }
-    stage('test') {
-      steps {
         sh "cargo test"
-      }
-    }
-    stage('build') {
-      steps {
         sh "cargo build"
       }
     }
