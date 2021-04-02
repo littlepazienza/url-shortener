@@ -8,6 +8,7 @@ pipeline {
     stage('checkout') {
       steps {
         checkout scm
+        rustup default nightly
       }
     }
     stage('test') {
