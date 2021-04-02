@@ -2,6 +2,7 @@ pipeline {
   agent {
     docker {
       image 'rust:latest'
+      args '-v /var/www/html/url.ienza.tech/:/root/url.ienza.tech'
     }
   }
   stages {
@@ -28,12 +29,18 @@ pipeline {
             git pull --tags
             git describe >> ./target/debug/version.txt
             echo $WORKSPACE
-            cp -R ./target/debug/* /var/www/html/url.ienza.tech/
-            pkill -f short_url
-            nohup /var/www/html/url.ienza.tech/target/debug/short_url &
+            cp -R ./target/debug/* /root/url.ienza.tech/
           fi
         '''
       }
+    }
+  }
+  post {
+    success {
+      sh '''
+        pkill -f short_url
+        nohup /var/www/html/url.ienza.tech/short_url &
+      '''
     }
   }
 }
