@@ -22,23 +22,18 @@ pipeline {
       }
     }
     stage('deploy') {
+      agent any
       steps {
         sh '''
           if [ $GIT_BRANCH = "main" ]; then
             git pull --tags
-            echo $HOME
-            git describe >> ./target/debug/version.txt
+            git describe >> $WORKSPACE/target/debug/version.txt
+            cp $WORKSPACE/target/debug/* /var/www/html/url.ienza.tech
+            pkill -f short_url
+            nohup /var/www/html/url.ienza.tech/short_url &
           fi
         '''
       }
-    }
-  }
-  post {
-    success {
-      sh '''
-        pkill -f short_url
-        nohup /var/www/html/url.ienza.tech/short_url &
-      '''
     }
   }
 }
