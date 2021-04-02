@@ -2,7 +2,6 @@ pipeline {
   agent {
     docker {
       image 'rust:latest'
-      args '-v /var/www/html/url.ienza.tech/:/root/url.ienza.tech'
     }
   }
   stages {
@@ -27,6 +26,7 @@ pipeline {
         sh '''
           if [ $GIT_BRANCH = "main" ]; then
             git pull --tags
+            echo $HOME
             git describe >> ./target/debug/version.txt
           fi
         '''
@@ -36,7 +36,6 @@ pipeline {
   post {
     success {
       sh '''
-        ls -lr $WORKSPACE
         pkill -f short_url
         nohup /var/www/html/url.ienza.tech/short_url &
       '''
