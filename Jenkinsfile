@@ -19,7 +19,7 @@ pipeline {
       steps {
         sh '''
           if [ $GIT_BRANCH = "main" ]; then
-            export JENKINS_NODE_COOKIE=dontKillMe /var/www/html/url.ienza.tech/short_url
+            export JENKINS_NODE_COOKIE=/var/www/html/url.ienza.tech/short_url
             git pull --tags
             git describe >> $WORKSPACE/target/debug/version.txt
             cp -r $WORKSPACE/target/debug/* /var/www/html/url.ienza.tech
