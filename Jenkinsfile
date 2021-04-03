@@ -21,7 +21,7 @@ pipeline {
           if [ $GIT_BRANCH = "main" ]; then
             git pull --tags
             git describe >> $WORKSPACE/target/debug/version.txt
-            cp $WORKSPACE/target/debug/* /var/www/html/url.ienza.tech
+            cp -r $WORKSPACE/target/debug/* /var/www/html/url.ienza.tech
             pkill -f short_url
             nohup /var/www/html/url.ienza.tech/short_url &
           fi
