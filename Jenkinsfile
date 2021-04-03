@@ -23,6 +23,9 @@ pipeline {
             git pull --tags
             git describe >> $WORKSPACE/target/debug/version.txt
             cp -r $WORKSPACE/target/debug/* /var/www/html/url.ienza.tech
+            if [ $(ps -aujenkins | grep short_url | wc -l) -eq 0 ]; then
+              pkill -f short_url
+            fi
             nohup /var/www/html/url.ienza.tech/short_url &
           fi
         '''
