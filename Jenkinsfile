@@ -25,6 +25,7 @@ pipeline {
             if [ $(ps -aujenkins | grep short_url | wc -l) -eq 1 ]; then
               pkill -f short_url
             fi
+            cp $WORKSPACE/index.html /var/www/html/url.ienza.tech
             cp -r $WORKSPACE/target/debug/* /var/www/html/url.ienza.tech
             nohup /var/www/html/url.ienza.tech/short_url &
           fi
