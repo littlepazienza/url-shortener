@@ -3,7 +3,6 @@
 
 #[macro_use] extern crate rocket;
 
-// use futures::stream::StreamExt;
 use rocket_contrib::json::Json;
 use serde::Deserialize;
 use random_string::generate;
@@ -13,6 +12,7 @@ use mongodb::{
     bson::doc,
 };
 use rocket::response::Redirect;
+use std::fs;
 
 #[derive(Deserialize)]
 pub struct UrlBody {
@@ -39,6 +39,11 @@ fn get_id() -> String {
 
 fn get_redirect(redirect_url: String) -> Redirect{
     Redirect::to(redirect_url)
+}
+
+#[get("/")]
+fn get_home() -> String {
+    fs::read_to_string("index.html").expect("Something went wrong reading the file")
 }
 
 #[get("/errors/internal")]
