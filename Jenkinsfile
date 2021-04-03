@@ -22,7 +22,6 @@ pipeline {
             git pull --tags
             git describe >> $WORKSPACE/target/debug/version.txt
             cp -r $WORKSPACE/target/debug/* /var/www/html/url.ienza.tech
-            pkill -f short_url
             nohup /var/www/html/url.ienza.tech/short_url &
           fi
         '''
