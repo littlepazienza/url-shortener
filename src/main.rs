@@ -3,18 +3,20 @@
 
 #[macro_use] extern crate rocket;
 
-use rocket_contrib::json::Json;
-use serde::Deserialize;
 use random_string::generate;
 use random_string::Charset;
 use mongodb::{
     sync::{Client, Collection},
     bson::doc,
 };
-use rocket::response::Redirect;
+use rocket::response::{
+    Redirect,
+    content::{self, Html},
+};
+use rocket::request::Form;
 use std::fs;
 
-#[derive(Deserialize)]
+#[derive(FromForm)]
 pub struct UrlBody {
     url: String,
 }
@@ -42,8 +44,9 @@ fn get_redirect(redirect_url: String) -> Redirect{
 }
 
 #[get("/")]
-fn get_home() -> String {
-    fs::read_to_string("index.html").expect("Something went wrong reading the file")
+fn get_home() -> content::Html<String> {
+    let index = fs::read_to_string("index.html").expect("Something went wrong reading the file");
+    content::Html(index)
 }
 
 #[get("/errors/internal")]
@@ -77,10 +80,10 @@ fn get_url(id: String) -> Redirect {
 }
 
 /// Add a url to the database (only if needed) and get the id of the object for the short url
-#[post("/manage/add", format = "json", data = "<body>")]
-fn add_url(body: Json<UrlBody>) -> String {
+#[post("/manage/add", data = "<body>")]
+fn add_url(body: Form<UrlBody>) -> String {
 
-    let url = body.into_inner().url;
+    let url = body.url.clone();
     let collection = get_url_collection();
 
     match collection.find_one(doc! { "url": url.clone()}, None) {
@@ -126,5 +129,5 @@ fn add_url(body: Json<UrlBody>) -> String {
 
 /// Ignite the rocket and then sit patiently and wait while it crushes the game
 fn main() {
-    rocket::ignite().mount("/", routes![get_url, add_url, get_bad_message, get_internal_error_message]).launch();
+    rocket::ignite().mount("/", routes![get_home, get_url, add_url, get_bad_message, get_internal_error_message]).launch();
 }

@@ -21,11 +21,12 @@ pipeline {
           if [ $GIT_BRANCH = "main" ]; then
             export JENKINS_NODE_COOKIE=/var/www/html/url.ienza.tech/short_url
             git pull --tags
-            git describe >> $WORKSPACE/target/debug/version.txt
+            version=$(git describe)
+            sed -i "s/<!--build_number-->/${version}/g" $WORKSPACE/www/index.html
             if [ $(ps -aujenkins | grep short_url | wc -l) -eq 1 ]; then
               pkill -f short_url
             fi
-            cp $WORKSPACE/index.html /var/www/html/url.ienza.tech
+            cp -r $WORKSPACE/www/* /var/www/html/url.ienza.tech
             cp -r $WORKSPACE/target/debug/* /var/www/html/url.ienza.tech
             nohup /var/www/html/url.ienza.tech/short_url &
           fi
