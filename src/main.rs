@@ -43,12 +43,6 @@ fn get_redirect(redirect_url: String) -> Redirect{
     Redirect::to(redirect_url)
 }
 
-#[get("/")]
-fn get_home() -> content::Html<String> {
-    let index = fs::read_to_string("index.html").expect("Something went wrong reading the file");
-    content::Html(index)
-}
-
 #[get("/errors/internal")]
 fn get_internal_error_message() -> String {
     "There was an interal server error while fetching your URL, sorry lol".to_string()
@@ -129,5 +123,5 @@ fn add_url(body: Form<UrlBody>) -> String {
 
 /// Ignite the rocket and then sit patiently and wait while it crushes the game
 fn main() {
-    rocket::ignite().mount("/", routes![get_home, get_url, add_url, get_bad_message, get_internal_error_message]).launch();
+    rocket::ignite().mount("/", routes![get_url, add_url, get_bad_message, get_internal_error_message]).launch();
 }
