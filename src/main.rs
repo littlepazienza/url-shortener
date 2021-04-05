@@ -99,7 +99,7 @@ fn add_url(body: Form<UrlBody>) -> String {
                     },
                     Ok(None) => {
                         match collection.insert_one(doc! {"url": url.clone(), "id": id.clone()}, None) {
-                            Ok(_result) => return format!("Your new url is: http://url.ienza.tech/{}", id),
+                            Ok(_result) => return format!("Your new url is: https://url.ienza.tech/{}", id),
                             Err(e) => {
                                 println!("Database error while inserting key and URL to db: {:?}", e);
                                 return "Internal Database Error".to_string();
