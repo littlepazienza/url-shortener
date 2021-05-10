@@ -77,7 +77,7 @@ fn get_url(id: String) -> Redirect {
 fn get_all() -> String {
     let mut vars = String::from("");
     let collection = get_url_collection();
-    match collection.find_one(doc! {}, None) {
+    match collection.find(doc! {}, None) {
         Ok(cursor) => {
             for doc in cursor {
               vars.push_str(&doc.to_string());
