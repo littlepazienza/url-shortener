@@ -73,7 +73,7 @@ fn get_url(id: String) -> Redirect {
     }
 }
 
-#[get("/manage/all", contentType = "application/json")]
+#[get("/manage/all")]
 fn get_all() -> String {
     let mut vars = String::from("[");
     let collection = get_url_collection();
@@ -83,7 +83,7 @@ fn get_all() -> String {
               match i {
                 Ok(doc) => {
                     vars.push_str(&doc.to_string());
-                    vars.push_str(",".to_string());
+                    vars.push_str(&",".to_string());
                 },
                 Err(e) => println!("Error getting doc {:?}", e)
               }
@@ -93,7 +93,7 @@ fn get_all() -> String {
             println!("Database error while getting all docs {:?}", e);
         }
     }
-    vars.push_str("]".to_string());
+    vars.push_str(&"]".to_string());
     return vars;
 }
 
