@@ -75,18 +75,19 @@ fn get_url(id: String) -> Redirect {
 
 #[get("/manage/all")]
 fn get_all() -> String {
+    let mut vars = String::from("");
     let collection = get_url_collection();
     match collection.find_one(doc! {}, None) {
         Ok(cursor) => {
             for doc in cursor {
-              println!("{}", doc)
+              vars.push_str(&doc.to_string());
             }
         },
         Err(e) => {
             println!("Database error while getting all docs {:?}", e);
         }
     }
-    return "".to_string();
+    return vars;
 }
 
 
