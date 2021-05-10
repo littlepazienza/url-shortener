@@ -73,7 +73,7 @@ fn get_url(id: String) -> Redirect {
     }
 }
 
-#[get("/manage/all")]
+#[get("/manage/all", contentType = "application/json")]
 fn get_all() -> String {
     let mut vars = String::from("[");
     let collection = get_url_collection();
