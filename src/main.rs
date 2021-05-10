@@ -79,8 +79,11 @@ fn get_all() -> String {
     let collection = get_url_collection();
     match collection.find(doc! {}, None) {
         Ok(cursor) => {
-            for doc in cursor {
-              vars.push_str(&doc.to_string());
+            for i in cursor {
+              match i {
+                Ok(doc) => vars.push_str(&doc.to_string()),
+                Err(e) => println!("Error getting doc {:?}", e)
+              }
             }
         },
         Err(e) => {
