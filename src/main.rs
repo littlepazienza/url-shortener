@@ -81,7 +81,10 @@ fn get_all() -> String {
         Ok(cursor) => {
             for i in cursor {
               match i {
-                Ok(doc) => vars.push_str(&doc.to_string()),
+                Ok(doc) => {
+                    vars.push_str(&doc.to_string());
+                    vars.push_str(",".to_string());
+                },
                 Err(e) => println!("Error getting doc {:?}", e)
               }
             }
