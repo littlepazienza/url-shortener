@@ -73,6 +73,23 @@ fn get_url(id: String) -> Redirect {
     }
 }
 
+#[get("/manage/all")]
+fn get_all() -> String {
+    let collection = get_url_collection();
+    match collection.find_one(doc! {}, None) {
+        Ok(cursor) => {
+            for doc in cursor {
+              println!("{}", doc)
+            }
+        },
+        Err(e) => {
+            println!("Database error while getting all docs {:?}", e);
+        }
+    }
+    return "".to_string();
+}
+
+
 /// Add a url to the database (only if needed) and get the id of the object for the short url
 #[post("/manage/add", data = "<body>")]
 fn add_url(body: Form<UrlBody>) -> String {
@@ -123,5 +140,5 @@ fn add_url(body: Form<UrlBody>) -> String {
 
 /// Ignite the rocket and then sit patiently and wait while it crushes the game
 fn main() {
-    rocket::ignite().mount("/", routes![get_url, add_url, get_bad_message, get_internal_error_message]).launch();
+    rocket::ignite().mount("/", routes![get_all, get_url, add_url, get_bad_message, get_internal_error_message]).launch();
 }
