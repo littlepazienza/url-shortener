@@ -62,8 +62,8 @@
       <table class="table table-striped">
         <thead class="bg-dark">
           <tr>
-            <th>URL</th>
-            <th>Short URL</th>
+            <th width="25%" styles="overflow: hidden; text-overflow: ellipsis;">URL</th>
+            <th width="75%" styles="overflow: hidden; text-overflow: ellipsis;">Short URL</th>
           </tr>
         </thead>
         <tbody id="urls">
@@ -120,8 +120,8 @@
               let id = document.createElement("td");
               url.innerText = urls[i];
               id.innerText = `https://url.ienza.tech/${i}`;
-              tr.appendChild(id);
               tr.appendChild(url);
+              tr.appendChild(id);
               tbody.appendChild(tr);
             }
         },
