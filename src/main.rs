@@ -83,11 +83,6 @@ fn get_all() -> Response< 'static> {
     let collection = get_url_collection();
     match collection.find(doc! {}, None) {
         Ok(cursor) => {
-            let mut x = match cursor.size_hint().1 {
-                Some(val) => val,
-                None => 0
-            };
-            vars.push_str(&x.to_string());
             for i in cursor {
               match i {
                 Ok(doc) => {
@@ -113,6 +108,7 @@ fn get_all() -> Response< 'static> {
             println!("Database error while getting all docs {:?}", e);
         }
     }
+    vars.pop();
     vars.push_str(&"}".to_string());
     let mut response = Response::new();
     response.set_sized_body(Cursor::new(vars));
