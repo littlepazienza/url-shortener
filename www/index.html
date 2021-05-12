@@ -112,10 +112,17 @@
         method: "GET",
         url: "https://url.ienza.tech/manage/all",
         success: function(response) {
-            console.log(response);
+            let tbody = document.findElementById("urls");
             let urls = JSON.parse(response);
             for ( i in urls ) {
-              console.log(i);
+              let tr = document.createElement("tr");
+              let url = document.createElement("td");
+              let id = document.createElement("td");
+              url.innerText = urls[i];
+              id.innerText = `https://url.ienza.tech/${i}`;
+              tr.appendElement(id);
+              tr.appendElement(url);
+              tbody.appendElement(tr);
             }
         },
         error: function(error) {
