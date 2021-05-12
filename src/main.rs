@@ -100,7 +100,7 @@ fn get_all() -> Response< 'static> {
     vars.push_str(&"]".to_string());
     let mut response = Response::new();
     response.set_sized_body(Cursor::new(vars));
-    response.adjoin_raw_header("Access-Control-Allow-Origin", "*");
+    response.adjoin_raw_header("Access-Control-Allow-Origin", "https://manage.url.ienza.tech");
     response.set_status(Status::Accepted);
     return response;
 }
