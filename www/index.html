@@ -59,6 +59,16 @@
           <button type="submit" class="btn btn-primary">Get Short URL</button>
         </form>
       </div>
+      <table class="table table-striped">
+        <thead class="bg-dark">
+          <tr>
+            <th>URL</th>
+            <th>Short URL</th>
+          </tr>
+        </thead>
+        <tbody id="urls">
+        </tbody>
+      </table>
     </div>
   </div>
   <footer class="footer footer-default">
@@ -102,16 +112,22 @@
         method: "GET",
         url: "https://url.ienza.tech/manage/all",
         success: function(response) {
-          console.log(response);
-          console.log(JSON.parse(response));
+            let urls = JSON.parse(response);
+            for i in urls {
+              console.log(i);
+            }
         },
         error: function(error) {
           console.log(error);
         }
       })
     }
-    
+
+    // window.onload = getUrls;
+
     $(document).ready(function() {
+
+      console.log("Running ready func");
       //init DateTimePickers
       materialKit.initFormExtendedDatetimepickers();
 
@@ -121,7 +137,9 @@
       console.log("Getting the URL database data");
 
       getUrls();
+
     });
+
 
 
     function scrollToDownload() {

@@ -91,9 +91,9 @@ fn get_all() -> Response< 'static> {
                             Ok(url) => {
                                 vars.push_str(&"\"".to_string());
                                 vars.push_str(&id.to_string());
-                                vars.push_str(&"\":".to_string());
+                                vars.push_str(&"\":\"".to_string());
                                 vars.push_str(&url.to_string());
-                                vars.push_str(&",".to_string());
+                                vars.push_str(&"\",".to_string());
                             },
                             Err(e) => println!("Error getting doc {:?}", e)
                         },
