@@ -125,20 +125,7 @@
 
     // window.onload = getUrls;
 
-    $(document).ready(function() {
-
-      console.log("Running ready func");
-      //init DateTimePickers
-      materialKit.initFormExtendedDatetimepickers();
-
-      // Sliders Init
-      materialKit.initSliders();
-
-      console.log("Getting the URL database data");
-
-      getUrls();
-
-    });
+    $(document).ready(getUrls);
 
 
 
