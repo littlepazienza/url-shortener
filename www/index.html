@@ -120,9 +120,9 @@
               let id = document.createElement("td");
               url.innerText = urls[i];
               id.innerText = `https://url.ienza.tech/${i}`;
-              tr.appendElement(id);
-              tr.appendElement(url);
-              tbody.appendElement(tr);
+              tr.appendChild(id);
+              tr.appendChild(url);
+              tbody.appendChild(tr);
             }
         },
         error: function(error) {
