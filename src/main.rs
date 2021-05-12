@@ -79,7 +79,7 @@ fn get_url(id: String) -> Redirect {
 
 #[get("/manage/all")]
 fn get_all() -> Response< 'static> {
-    let mut vars = String::from("[");
+    let mut vars = String::from("'urls': [");
     let collection = get_url_collection();
     match collection.find(doc! {}, None) {
         Ok(cursor) => {
