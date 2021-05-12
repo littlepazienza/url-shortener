@@ -99,8 +99,6 @@ fn get_all() -> Response< 'static> {
                         },
                         Err(e) => println!("Error getting doc {:?}", e)
                     }
-                    vars.push_str(&doc.to_string());
-                    vars.push_str(&",".to_string());
                 },
                 Err(e) => println!("Error getting doc {:?}", e)
               }
