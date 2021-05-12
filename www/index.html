@@ -113,7 +113,7 @@
         url: "https://url.ienza.tech/manage/all",
         success: function(response) {
             let urls = JSON.parse(response);
-            for i in urls {
+            for ( i in urls ) {
               console.log(i);
             }
         },
