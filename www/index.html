@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
   <link href="assets/css/material-kit.css?v=2.0.7" rel="stylesheet" />
+  <link href="assets/css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -63,11 +64,11 @@
       <table class="table table-striped">
         <thead class="bg-dark">
           <tr>
-            <th width="75%">URL</th>
-            <th width="25%">Short URL</th>
+            <th>URL</th>
+            <th>Short URL</th>
           </tr>
         </thead>
-        <tbody id="urls" styles="overflow: hidden; text-overflow: ellipsis;">
+        <tbody id="urls">
         </tbody>
       </table>
     </div>
@@ -121,6 +122,10 @@
               let id = document.createElement("td");
               url.innerText = urls[i];
               id.innerText = `https://url.ienza.tech/${i}`;
+              id.width = "25%";
+              url.width = "75%";
+              url.className = "cell";
+              id.className = "cell";
               tr.appendChild(url);
               tr.appendChild(id);
               tbody.appendChild(tr);
