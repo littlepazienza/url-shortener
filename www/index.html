@@ -112,6 +112,7 @@
         method: "GET",
         url: "https://url.ienza.tech/manage/all",
         success: function(response) {
+            console.log(response);
             let urls = JSON.parse(response);
             for ( i in urls ) {
               console.log(i);

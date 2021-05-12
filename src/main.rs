@@ -83,6 +83,11 @@ fn get_all() -> Response< 'static> {
     let collection = get_url_collection();
     match collection.find(doc! {}, None) {
         Ok(cursor) => {
+            let mut x = match cursor.size_hint().1 {
+                Some(val) => val,
+                None => 0
+            };
+            vars.push_str(&x.to_string());
             for i in cursor {
               match i {
                 Ok(doc) => {
