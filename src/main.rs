@@ -79,7 +79,7 @@ fn get_url(id: String) -> Redirect {
 
 #[get("/manage/all")]
 fn get_all() -> Response< 'static> {
-    let mut vars = String::from("'urls': [");
+    let mut vars = String::from("{\"urls\": [");
     let collection = get_url_collection();
     match collection.find(doc! {}, None) {
         Ok(cursor) => {
@@ -97,7 +97,7 @@ fn get_all() -> Response< 'static> {
             println!("Database error while getting all docs {:?}", e);
         }
     }
-    vars.push_str(&"]".to_string());
+    vars.push_str(&"]}".to_string());
     let mut response = Response::new();
     response.set_sized_body(Cursor::new(vars));
     response.adjoin_raw_header("Access-Control-Allow-Origin", "https://manage.url.ienza.tech");
