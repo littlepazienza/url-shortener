@@ -62,7 +62,7 @@
       </div>
       <h2 class="title">Database</h2>
       <table class="table table-striped">
-        <thead class="bg-dark">
+        <thead class="bg-dark text-light">
           <tr>
             <th>URL</th>
             <th>Short URL</th>
@@ -119,13 +119,19 @@
             for ( i in urls ) {
               let tr = document.createElement("tr");
               let url = document.createElement("td");
+              let url_link = document.createElement("a");
               let id = document.createElement("td");
-              url.innerText = urls[i];
-              id.innerText = `https://url.ienza.tech/${i}`;
+              let id_link = document.createElement("a");
+              url_link.href = urls[i];
+              url_link.innerText = urls[i];
+              id_link.href = `https://url.ienza.tech/${i}`
+              id_link.innerText = `https://url.ienza.tech/${i}`;
               id.width = "25%";
               url.width = "75%";
               url.className = "cell";
               id.className = "cell";
+              url.appendChild(url_link);
+              id.appendChild(id_link);
               tr.appendChild(url);
               tr.appendChild(id);
               tbody.appendChild(tr);
