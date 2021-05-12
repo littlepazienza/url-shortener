@@ -10,11 +10,15 @@ use mongodb::{
     bson::doc,
 };
 use rocket::response::{
+    Response,
     Redirect,
     content::{self, Html},
 };
+use rocket::http::Status;
 use rocket::request::Form;
 use std::fs;
+use std::io::Cursor;
+
 
 #[derive(FromForm)]
 pub struct UrlBody {
@@ -74,7 +78,7 @@ fn get_url(id: String) -> Redirect {
 }
 
 #[get("/manage/all")]
-fn get_all() -> String {
+fn get_all() -> Response< 'static> {
     let mut vars = String::from("[");
     let collection = get_url_collection();
     match collection.find(doc! {}, None) {
@@ -94,7 +98,11 @@ fn get_all() -> String {
         }
     }
     vars.push_str(&"]".to_string());
-    return vars;
+    let mut response = Response::new();
+    response.set_sized_body(Cursor::new(vars));
+    response.adjoin_raw_header("Access-Control-Allow-Origin", "*");
+    response.set_status(Status::Accepted);
+    return response;
 }
 
 
