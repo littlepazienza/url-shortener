@@ -79,13 +79,26 @@ fn get_url(id: String) -> Redirect {
 
 #[get("/manage/all")]
 fn get_all() -> Response< 'static> {
-    let mut vars = String::from("{\"urls\": [");
+    let mut vars = String::from("{");
     let collection = get_url_collection();
     match collection.find(doc! {}, None) {
         Ok(cursor) => {
             for i in cursor {
               match i {
                 Ok(doc) => {
+                    match doc.get_str("id") {
+                        Ok(id) => match doc.get_str("url") {
+                            Ok(url) => {
+                                vars.push_str(&"\"".to_string());
+                                vars.push_str(&id.to_string());
+                                vars.push_str(&"\":".to_string());
+                                vars.push_str(&url.to_string());
+                                vars.push_str(&",".to_string());
+                            },
+                            Err(e) => println!("Error getting doc {:?}", e)
+                        },
+                        Err(e) => println!("Error getting doc {:?}", e)
+                    }
                     vars.push_str(&doc.to_string());
                     vars.push_str(&",".to_string());
                 },
@@ -97,7 +110,7 @@ fn get_all() -> Response< 'static> {
             println!("Database error while getting all docs {:?}", e);
         }
     }
-    vars.push_str(&"]}".to_string());
+    vars.push_str(&"}".to_string());
     let mut response = Response::new();
     response.set_sized_body(Cursor::new(vars));
     response.adjoin_raw_header("Access-Control-Allow-Origin", "https://manage.url.ienza.tech");
