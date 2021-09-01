@@ -2,7 +2,11 @@ pipeline {
   agent none
   stages {
     stage('checkout') {
-      agent { rust }
+      agent {
+        docker {
+          image 'rust:latest'
+        }
+      }
       steps {
         checkout scm
         sh "rustup default nightly"
