@@ -2,7 +2,7 @@ pipeline {
   agent none
   stages {
     stage('checkout') {
-      agent rust
+      agent { rust }
       steps {
         checkout scm
         sh "rustup default nightly"
