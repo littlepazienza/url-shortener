@@ -9,7 +9,6 @@ pipeline {
         }
       }
       steps {
-        checkout scm
         sh "rustup default nightly"
         sh "cargo test"
         sh "cargo build"
