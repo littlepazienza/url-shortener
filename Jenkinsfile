@@ -5,6 +5,7 @@ pipeline {
       agent {
         docker {
           image 'rust:latest'
+          args '--volumes-from jenkins'
         }
       }
       steps {
