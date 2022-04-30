@@ -19,8 +19,8 @@ pipeline {
         sh '''
           if [ $GIT_BRANCH = "main" ]; then
             git pull --tags
-            version=$(git describe)
-            sed -i '' -e "s/<!--build_number-->/${version}/g" $WORKSPACE/www/index.html
+            version=$(git describe --tags)
+            sed -e "s/<!--build_number-->/${version}/g" $WORKSPACE/www/index.html
             if [ $(ps -au$USER | grep short_url | wc -l) -eq 1 ]; then
               pkill -f short_url
             fi
