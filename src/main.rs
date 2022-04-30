@@ -29,7 +29,7 @@ pub struct UrlBody {
 }
 
 fn get_url_collection() -> Collection {
-    match Client::with_uri_str("mongodb://localhost:27017") {
+    match Client::with_uri_str("mongodb://mongo:27017") {
         Ok(client) => client.database("ienza-tech").collection("urls"),
         Err(e) => {
             println!("Error while communicating with MONGODB{:?}", e);
