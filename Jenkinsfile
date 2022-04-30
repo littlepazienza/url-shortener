@@ -1,11 +1,11 @@
 pipeline {
-  agent none
+  agent any
   stages {
-    stage('checkout') {
+    stage('build') {
       agent {
-        docker {
-          image 'rust:latest'
-        }
+          docker {
+              image 'rust:latest'
+          }
       }
       steps {
         sh "rustup default nightly"
@@ -13,22 +13,13 @@ pipeline {
         sh "cargo build"
       }
     }
-    stage('deploy') {
-      agent any
+    stage('package') {
       steps {
-        sh '''
-          if [ $GIT_BRANCH = "main" ]; then
-            git pull --tags
-            version=$(git describe --tags)
-            sed -e "s/<!--build_number-->/${version}/g" $WORKSPACE/www/index.html
-            if [ $(ps -au$USER | grep short_url | wc -l) -eq 1 ]; then
-              pkill -f short_url
-            fi
-            cp -r $WORKSPACE/www/* /var/www/html/url.ienza.tech
-            cp -r $WORKSPACE/target/debug/* /var/www/html/url.ienza.tech
-            nohup /usr/local/homebrew/var/www/html/url.ienza.tech/short_url &
-          fi
-        '''
+        sh 'zip -r url-shortener.zip *.toml src README.md'
+        archiveArtifacts artifacts: '*.zip,**/*.html',
+                   allowEmptyArchive: false,
+                   fingerprint: true,
+                   onlyIfSuccessful: true
       }
     }
   }

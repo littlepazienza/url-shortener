@@ -19,6 +19,9 @@ use rocket::request::Form;
 use std::fs;
 use std::io::Cursor;
 
+use rocket::http::Method;
+use rocket_cors::{AllowedOrigins, CorsOptions};
+
 
 #[derive(FromForm)]
 pub struct UrlBody {
@@ -61,7 +64,7 @@ fn get_bad_message() -> String {
 #[get("/<id>")]
 fn get_url(id: String) -> Redirect {
     let collection = get_url_collection();
-    match collection.find_one(doc! { "id": id.clone()}, None) {
+    match collection.find_one(doc! { "_id": id.clone()}, None) {
         Ok(Some(result)) => match result.get_str("url") {
             Ok(url) =>  get_redirect(url.to_string()),
             Err(e) => {
@@ -86,7 +89,7 @@ fn get_all() -> Response< 'static> {
             for i in cursor {
               match i {
                 Ok(doc) => {
-                    match doc.get_str("id") {
+                    match doc.get_str("_id") {
                         Ok(id) => match doc.get_str("url") {
                             Ok(url) => {
                                 vars.push_str(&"\"".to_string());
@@ -137,13 +140,13 @@ fn add_url(body: Form<UrlBody>) -> String {
             let mut n = 30;
             while n > 0 {
                 let id = get_id();
-                match collection.find_one(doc! { "id": id.clone()}, None) {
+                match collection.find_one(doc! { "_id": id.clone()}, None) {
                     Ok(Some(_result)) => {
                         n -= 1;
                         continue;
                     },
                     Ok(None) => {
-                        match collection.insert_one(doc! {"url": url.clone(), "id": id.clone()}, None) {
+                        match collection.insert_one(doc! {"url": url.clone(), "_id": id.clone()}, None) {
                             Ok(_result) => return format!("Your new url is: https://url.ienza.tech/{}", id),
                             Err(e) => {
                                 println!("Database error while inserting key and URL to db: {:?}", e);
@@ -168,5 +171,15 @@ fn add_url(body: Form<UrlBody>) -> String {
 
 /// Ignite the rocket and then sit patiently and wait while it crushes the game
 fn main() {
-    rocket::ignite().mount("/", routes![get_all, get_url, add_url, get_bad_message, get_internal_error_message]).launch();
+
+    let cors = CorsOptions::default()
+        .allowed_origins(AllowedOrigins::all())
+        .allowed_methods(
+            vec![Method::Get, Method::Post, Method::Patch]
+                .into_iter()
+                .map(From::from)
+                .collect(),
+        )
+        .allow_credentials(true);
+    rocket::ignite().attach(cors.to_cors().unwrap()).mount("/", routes![get_all, get_url, add_url, get_bad_message, get_internal_error_message]).launch();
 }
