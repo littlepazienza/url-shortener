@@ -23,9 +23,9 @@ pipeline {
             sed -i -e "s/<!--build_number-->/${version}/g" $WORKSPACE/www/index.html
             cp -r $WORKSPACE/www/* /var/www/html/url.ienza.tech
           fi
-          zip -r url-shortener.zip *.toml src README.md
+          tar -czvf url-shortener.tar.gz *.toml src README.md
         '''
-        archiveArtifacts artifacts: '*.zip,**/*.html',
+        archiveArtifacts artifacts: '*.tar.gz,**/*.html',
                    allowEmptyArchive: false,
                    fingerprint: true,
                    onlyIfSuccessful: true
