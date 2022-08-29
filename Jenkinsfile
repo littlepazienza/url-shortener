@@ -8,7 +8,7 @@ pipeline {
           }
       }
       steps {
-        sh "rustup default nightly"
+        sh "rustup toolchain install nightly-2022-04-18"
         sh "cargo test"
         sh "cargo build"
       }
