@@ -13,3 +13,7 @@ Running ```cargo run``` will set up a development version of the system based of
 ## Running unit tests
 
 Running ```cargo test``` will run any tests in the test dir [Rocket.toml](Rocket.toml)
+
+## CI/CD
+
+See Actions
