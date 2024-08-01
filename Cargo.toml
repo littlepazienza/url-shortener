@@ -11,6 +11,7 @@ rocket = "0.4.7"
 rocket_cors = "0.5.2"
 serde = "1.0.125"
 random-string = "0.2.0"
+rustix = "0.37.0"
 
 [dependencies.rocket_contrib]
 version = "0.4.7"
