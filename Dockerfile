@@ -7,5 +7,5 @@ RUN rustup run nightly-2022-04-18 cargo test
 RUN rustup run nightly-2022-04-18 cargo build
 
 FROM gcr.io/distroless/cc 
-COPY --from=builder ./target/debug/short-url ./short-url
-CMD ["./short-url"]
+COPY --from=builder ./target/debug/short_url ./short_url
+CMD ["./short_url"]
