@@ -1,4 +1,4 @@
-FROM rust as blog-server
+FROM rust as url-shortener
 USER root
 COPY ./ ./
 RUN rustup toolchain install nightly-2022-04-18

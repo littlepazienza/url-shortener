@@ -1,5 +1,3 @@
-[![Build Status](http://jenkins.paz.ienza.tech/job/url-shortener/job/main/badge/icon)](http://jenkins.paz.ienza.tech/job/url-shortener/job/main/)
-
 # URL Shortener
 
 This project was generated with Cargo and developed in rust. 
